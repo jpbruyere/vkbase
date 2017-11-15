@@ -9,7 +9,7 @@
 #pragma once
 
 #if defined(_WIN32)
-#define KEY_ESCAPE VK_ESCAPE 
+#define KEY_ESCAPE VK_ESCAPE
 #define KEY_F1 VK_F1
 #define KEY_F2 VK_F2
 #define KEY_F3 VK_F3
@@ -30,7 +30,7 @@
 #define KEY_O 0x4F
 #define KEY_T 0x54
 #elif defined(__ANDROID__)
-// Dummy key codes 
+// Dummy key codes
 #define KEY_ESCAPE 0x0
 #define KEY_F1 0x1
 #define KEY_F2 0x2
@@ -115,6 +115,7 @@
 #define KEY_F2 0x44
 #define KEY_F3 0x45
 #define KEY_F4 0x46
+#define KEY_Q 0x18
 #define KEY_W 0x19
 #define KEY_A 0x26
 #define KEY_S 0x27
@@ -132,7 +133,6 @@
 #define KEY_KP1   0x57
 #define KEY_KP2   0x58
 #define KEY_KP3   0x59
-
 #define KEY_B 0x38
 #define KEY_F 0x29
 #define KEY_H 0x2B
