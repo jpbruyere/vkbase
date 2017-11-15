@@ -204,10 +204,10 @@ namespace vks
 				aiMat->Get(AI_MATKEY_SHININESS, mat.Ns);
 
 				if (mat.Ns == 0.f)
-					mat.Nr = 1.0f;
+                    mat.Nr = 0.2f;
 				else
 					mat.Nr = 10.0f / mat.Ns;
-				mat.Nm = 0.005f;
+                mat.Nm = 0.9f;
 
 				aiString mapPath;
 

@@ -77,6 +77,18 @@ std::string VulkanExampleBase::getWindowTitle()
 	return windowTitle;
 }
 
+#if !(defined(VK_USE_PLATFORM_IOS_MVK) || defined(VK_USE_PLATFORM_MACOS_MVK))
+// iOS & macOS: VulkanExampleBase::getAssetPath() implemented externally to allow access to Objective-C components
+const std::string VulkanExampleBase::getAssetPath()
+{
+#if defined(__ANDROID__)
+	return "";
+#else
+	return "./../data/";
+#endif
+}
+#endif
+
 bool VulkanExampleBase::checkCommandBuffers()
 {
 	for (auto& cmdBuffer : drawCmdBuffers)
@@ -178,8 +190,8 @@ void VulkanExampleBase::prepare()
 	{
 		// Load the text rendering shaders
 		std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
-        shaderStages.push_back(loadShader("shaders/textoverlay.vert.spv", VK_SHADER_STAGE_VERTEX_BIT));
-        shaderStages.push_back(loadShader("shaders/textoverlay.frag.spv", VK_SHADER_STAGE_FRAGMENT_BIT));
+		shaderStages.push_back(loadShader("shaders/textoverlay.vert.spv", VK_SHADER_STAGE_VERTEX_BIT));
+		shaderStages.push_back(loadShader("shaders/textoverlay.frag.spv", VK_SHADER_STAGE_FRAGMENT_BIT));
 		textOverlay = new VulkanTextOverlay(
 			vulkanDevice,
 			queue,
