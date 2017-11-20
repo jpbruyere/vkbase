@@ -1806,10 +1806,10 @@ void VulkanExampleBase::handleEvent(const xcb_generic_event_t *event)
             cameraPos.y -= (mousePos.y - (float)motion->event_y) * 0.01f;
             camera.translate(glm::vec3(-(mousePos.x - (float)(float)motion->event_x) * 0.01f, -(mousePos.y - (float)motion->event_y) * 0.01f, 0.0f));
             viewUpdated = true;
-            mousePos.x = (float)motion->event_x;
-            mousePos.y = (float)motion->event_y;
         }
         mousePos = glm::vec2((float)motion->event_x, (float)motion->event_y);
+        bool *handled;
+        mouseMoved(mousePos.x,mousePos.y, *handled);
     }
     break;
     case XCB_BUTTON_PRESS:
@@ -1821,6 +1821,7 @@ void VulkanExampleBase::handleEvent(const xcb_generic_event_t *event)
             mouseButtons.middle = true;
         if (press->detail == XCB_BUTTON_INDEX_3)
             mouseButtons.right = true;
+        mouseDown((uint32_t) press->detail);
     }
     break;
     case XCB_BUTTON_RELEASE:
@@ -1832,6 +1833,7 @@ void VulkanExampleBase::handleEvent(const xcb_generic_event_t *event)
             mouseButtons.middle = false;
         if (press->detail == XCB_BUTTON_INDEX_3)
             mouseButtons.right = false;
+        mouseUp((uint32_t) press->detail);
     }
     break;
     case XCB_KEY_PRESS:
@@ -1915,6 +1917,10 @@ void VulkanExampleBase::viewChanged() {}
 void VulkanExampleBase::keyPressed(uint32_t) {}
 
 void VulkanExampleBase::mouseMoved(double x, double y, bool & handled) {}
+
+void VulkanExampleBase::mouseDown(u_int32_t but) {}
+
+void VulkanExampleBase::mouseUp(u_int32_t but) {}
 
 void VulkanExampleBase::buildCommandBuffers() {}
 
