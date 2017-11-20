@@ -394,7 +394,7 @@ public:
 		// Set additional usage flag for blitting from the swapchain images if supported
 		VkFormatProperties formatProps;
 		vkGetPhysicalDeviceFormatProperties(physicalDevice, colorFormat, &formatProps);
-		if (formatProps.optimalTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT) {
+		if ((formatProps.optimalTilingFeatures & VK_FORMAT_FEATURE_TRANSFER_SRC_BIT_KHR) || (formatProps.optimalTilingFeatures & VK_FORMAT_FEATURE_BLIT_SRC_BIT)) {
 			swapchainCI.imageUsage |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
 		}
 
@@ -606,7 +606,7 @@ public:
 
 		VkDisplayPlaneCapabilitiesKHR planeCap;
 		vkGetDisplayPlaneCapabilitiesKHR(physicalDevice, displayMode, bestPlaneIndex, &planeCap);
-		VkDisplayPlaneAlphaFlagBitsKHR alphaMode;
+		VkDisplayPlaneAlphaFlagBitsKHR alphaMode = (VkDisplayPlaneAlphaFlagBitsKHR)0;
 
 		if (planeCap.supportedAlpha & VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_PREMULTIPLIED_BIT_KHR)
 		{
@@ -614,12 +614,15 @@ public:
 		}
 		else if (planeCap.supportedAlpha & VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_BIT_KHR)
 		{
-
 			alphaMode = VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_BIT_KHR;
 		}
-		else
+		else if (planeCap.supportedAlpha & VK_DISPLAY_PLANE_ALPHA_GLOBAL_BIT_KHR)
 		{
 			alphaMode = VK_DISPLAY_PLANE_ALPHA_GLOBAL_BIT_KHR;
+		}
+		else if (planeCap.supportedAlpha & VK_DISPLAY_PLANE_ALPHA_OPAQUE_BIT_KHR)
+		{
+			alphaMode = VK_DISPLAY_PLANE_ALPHA_OPAQUE_BIT_KHR;
 		}
 
 		VkDisplaySurfaceCreateInfoKHR surfaceInfo{};
